@@ -1,0 +1,30 @@
+.calc{
+    display: grid;
+    gap: 5px;
+    grid-template-columns: repeat(4,1fr);
+}
+.calc-parent{
+    background-color: blue;
+    display: grid;
+    grid-template-columns: 4;
+    gap: 5px;
+
+}
+section{
+    background-color: brown;
+    display: flex;
+    justify-content: center;
+    height: fit-content;
+}
+.output{
+    grid-row: 1/4;
+    padding: 5px;
+    
+}
+
+
+
+h1{
+    color: beige;
+    text-align: center;
+}
