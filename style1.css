@@ -1,0 +1,54 @@
+.calc{
+    display: grid;
+    gap: 10px;
+    grid-template-columns: repeat(4,1fr);
+}
+.calc-parent{
+    background-color: blue;
+    display: grid;
+    grid-template-columns: 4;
+    gap: 5px;
+    padding: 50px;
+    border-radius: 5px;
+
+}
+section{
+    display: flex;
+    justify-content: center;
+    min-height: calc(100vh - 30px);
+    align-items: center;
+}
+.output{
+    grid-row: 1/4;
+    padding: 5px;
+    
+}
+header{
+    background-color: palegreen;
+    margin-top: 0%;
+    position: fixed;
+    width: 100%;
+}
+body{
+    background-color: rgb(37, 240, 230);
+    margin: 0%;
+    padding: 0%;
+}
+
+
+h1{
+    color: beige;
+    text-align: center;
+}
+footer{
+    bottom: 0;
+    width: 100%;
+    position: fixed;
+    text-align: center;
+    padding: 10px;
+    background-color: darkcyan;
+}
+button{
+    padding: 10px;
+    background-color: rgb(205, 232, 250);
+}
