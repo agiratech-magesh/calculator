@@ -7,6 +7,7 @@ const display = document.getElementById('display');
 
 function updateDisplay() {
   display.innerText = currentInput;
+  console.log(display.innerText)
 }
 
 function appendNumber(number) {
@@ -25,10 +26,13 @@ function appendDecimal() {
     currentInput += '.';
     updateDisplay();
   }
+  else{
+    alert("decimal value is already placed")
+  }
 }
 function del(){
   let currentInput = display.innerText.toString();
-  display.innerText = currentInput.substr(0, currentInput.length - 1);
+  display.innerText = currentInput.substring(0, currentInput.length - 1);
 }
 
 
@@ -45,10 +49,6 @@ function setOperator(newOperator) {
   }
 
   display.innerText += newOperator;
-
-
-  
-
 }
 
 function calculate() {
