@@ -38,6 +38,7 @@ function clearDisplay() {
 function calculate() {
   try {
     const result = evaluateExpression(currentInput);
+    localStorage.setItem(document.getElementById('display').value, result);  
     currentInput = result.toString();
     shouldResetDisplay = true;
     updateDisplay();
