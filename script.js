@@ -1,5 +1,6 @@
 let currentInput = '';
 let shouldResetDisplay = false;
+
 const display = document.getElementById('display');
 
 function updateDisplay() {
@@ -57,7 +58,10 @@ function evaluateExpression(expression) {
 
 function tokenizeExpression(expression) {
   return expression.match(/([0-9]+|\+|\-|\*|\/|\(|\))/g) || [];
+  
 }
+
+
 
 function infixToPostfix(infixTokens) {
   const output = [];
@@ -66,14 +70,9 @@ function infixToPostfix(infixTokens) {
   for (const token of infixTokens) {
     if (!isNaN(parseFloat(token))) {
       output.push(token);
-    } else if (token === '(') {
-      stack.push(token);
-    } else if (token === ')') {
-      while (stack.length > 0 && stack[stack.length - 1] !== '(') {
-        output.push(stack.pop());
-      }
-      stack.pop(); // Remove the '(' from the stack
-    } else {
+    }
+
+    else {
       while (
         stack.length > 0 &&
         getPrecedence(stack[stack.length - 1]) >= getPrecedence(token)
@@ -145,3 +144,14 @@ function getPrecedence(operator) {
 }
 
 updateDisplay();
+
+
+
+
+
+// If shouldResetDisplay is true, it means you want to start a new input. 
+// In this case, you set currentInput to the new value,
+//  and you reset the flag shouldResetDisplay to false.
+// If shouldResetDisplay is false, it means you're continuing an existing input.
+//  The function then checks if the last character is an operator and makes decisions 
+//  on whether to append or replace characters accordingly.
