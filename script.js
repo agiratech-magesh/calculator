@@ -39,7 +39,7 @@ function clearDisplay() {
 function calculate() {
   try {
     const result = evaluateExpression(currentInput);
-    localStorage.setItem(document.getElementById('display').value, result);  
+    localStorage.setItem(document.getElementById('display').value, result);
     currentInput = result.toString();
     shouldResetDisplay = true;
     updateDisplay();
@@ -52,55 +52,71 @@ function calculate() {
 
 function evaluateExpression(expression) {
   const tokens = tokenizeExpression(expression);
+  console.log(tokens)
   const postfix = infixToPostfix(tokens);
   return calculatePostfix(postfix);
 }
 
 function tokenizeExpression(expression) {
-  return expression.match(/([0-9]+|\+|\-|\*|\/|\(|\))/g) || [];
-  
+  const matchResult = expression.match(/([0-9]+(?:\.[0-9]+)?|\+|\-|\*|\/|\(|\))/g);
+
+  if (!matchResult) {
+    throw new Error('Invalid expression');
+  }
+
+  const invalidCharacters = expression.replace(/([0-9]+(?:\.[0-9]+)?|\+|\-|\*|\/|\(|\))/g, '');
+
+  if (invalidCharacters.trim() !== '') {
+    throw new Error('Invalid characters in expression');
+  }
+
+  return matchResult;
 }
 
 
 
-function infixToPostfix(infixTokens) {
+
+function infixToPostfix(arr) {
   const output = [];
   const stack = [];
 
-  for (const token of infixTokens) {
-    if (!isNaN(parseFloat(token))) {
-      output.push(token);
+  for (const i of arr) {
+    if (!isNaN(parseFloat(i))) {
+      output.push(i);
     }
 
     else {
       while (
         stack.length > 0 &&
-        getPrecedence(stack[stack.length - 1]) >= getPrecedence(token)
+        getPrecedence(stack[stack.length - 1]) >= getPrecedence(i)
       ) {
         output.push(stack.pop());
       }
-      stack.push(token);
+      stack.push(i);
     }
   }
+  console.log(stack)
 
   while (stack.length > 0) {
     output.push(stack.pop());
   }
-
+  console.log(output)
   return output;
+
 }
 
 function calculatePostfix(postfixTokens) {
+  console.log(postfixTokens)
   const stack = [];
 
-  for (const token of postfixTokens) {
-    if (!isNaN(parseFloat(token))) {
-      stack.push(parseFloat(token));
+  for (const i of postfixTokens) {
+    if (!isNaN(parseFloat(i))) {
+      stack.push(parseFloat(i));
     } else {
       const operand2 = stack.pop();
       const operand1 = stack.pop();
 
-      switch (token) {
+      switch (i) {
         case '+':
           stack.push(operand1 + operand2);
           break;
@@ -126,7 +142,7 @@ function calculatePostfix(postfixTokens) {
   if (stack.length !== 1) {
     throw new Error('Invalid expression');
   }
-
+  console.log(stack)
   return stack.pop();
 }
 
@@ -139,12 +155,48 @@ function getPrecedence(operator) {
     case '/':
       return 2;
     default:
-      return 0; // for parentheses
+      return 0; //for parentheses but in this i din't used that 
   }
 }
 
-updateDisplay();
 
+updateDisplay();
+// Your existing code...  
+
+// Add an event listener for keydown event on the document
+document.addEventListener('keyup', function (event) {
+  const key = event.key;
+
+  if (!isValidInput(key)) {
+    event.preventDefault();
+  } else {
+    handleKeyPress(key);
+  }
+});
+// Function to handle the key press
+function handleKeyPress(key) {
+  // Perform actions based on the pressed key
+  switch (key) {
+    case 'Enter':
+      calculate();
+      break;
+    case 'Backspace':
+      deleteLastDigit();
+      break;
+    default:
+      // For other keys, append to the display
+      appendToDisplay(key);
+  }
+}
+
+// Function to check if the pressed key is a valid input
+function isValidInput(key) {
+  // Only allow digits, operators, parentheses, dot, Enter, and Backspace
+  const validInputs = /[0-9+\-*/.()\s]|Enter|Backspace/;
+  return validInputs.test(key);
+}
+
+// Your existing code...
 
 
 
